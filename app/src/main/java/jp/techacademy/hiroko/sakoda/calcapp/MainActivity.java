@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
 import android.widget.TextView;
+import android.support.design.widget.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if ((firstStr.length() == 0)||(secondStr.length() == 0)){
 
-            textView.setText("数値を入力してください");
+            //textView.setText("数値を入力してください");
+            Snackbar.make(v, "数値を入力してください", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
 
         }else{
 
