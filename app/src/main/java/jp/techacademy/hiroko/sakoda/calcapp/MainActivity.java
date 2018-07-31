@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
-import android.widget.TextView;
 import android.support.design.widget.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -47,48 +46,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        TextView textView = (TextView) findViewById(R.id.textView);
         firstStr = editText1.getText().toString();
         secondStr = editText2.getText().toString();
 
-//        nullでは反応しない
-//        if (firstStr == null)  {
-//            Log.d("UI_PARTS", "firstStr==null" + firstStr);
-//        }
+        try{
 
-        if ((firstStr.length() == 0)||(secondStr.length() == 0)){
+            if ((firstStr.length() == 0)||(secondStr.length() == 0)){
 
-            //textView.setText("数値を入力してください");
-            Snackbar.make(v, "数値を入力してください", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+                showSnackBar(v, "数値が入力されていません。数値を入力してください");
 
-        }else{
-
-            textView.setText("");
-
-            firstNum = Double.parseDouble(firstStr);
-            secondNum = Double.parseDouble(secondStr);
-            Double resultNum;
-
-            if (v.getId() == R.id.button1) {
-                resultNum = firstNum + secondNum;
-                goToSecond(resultNum);
-            }else if (v.getId() == R.id.button2) {
-                resultNum = firstNum - secondNum;
-                goToSecond(resultNum);
-            }else if (v.getId() == R.id.button3) {
-                resultNum = firstNum * secondNum;
-                goToSecond(resultNum);
             }else{
-                if (secondNum == 0){
-                    Snackbar.make(v, "０以外の数値で割ってください", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }else{
-                    resultNum = firstNum / secondNum;
+
+                firstNum = Double.parseDouble(firstStr);
+                secondNum = Double.parseDouble(secondStr);
+                Double resultNum;
+
+                if (v.getId() == R.id.button1) {
+                    resultNum = firstNum + secondNum;
                     goToSecond(resultNum);
+                }else if (v.getId() == R.id.button2) {
+                    resultNum = firstNum - secondNum;
+                    goToSecond(resultNum);
+                }else if (v.getId() == R.id.button3) {
+                    resultNum = firstNum * secondNum;
+                    goToSecond(resultNum);
+                }else{
+                    if (secondNum == 0){
+
+                        showSnackBar(v, "０以外の数値で割ってください");
+
+                    }else{
+                        resultNum = firstNum / secondNum;
+                        goToSecond(resultNum);
+                    }
                 }
             }
+
+        }catch (NumberFormatException e) {
+
+            showSnackBar(v, "数値を正しく入力してください");
         }
+    }
+
+    private void showSnackBar(View v, String str){
+        Snackbar.make(v, str, Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     private  void goToSecond(Double resultNum){
