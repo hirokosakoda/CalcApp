@@ -72,17 +72,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (v.getId() == R.id.button1) {
                 resultNum = firstNum + secondNum;
+                goToSecond(resultNum);
             }else if (v.getId() == R.id.button2) {
                 resultNum = firstNum - secondNum;
+                goToSecond(resultNum);
             }else if (v.getId() == R.id.button3) {
                 resultNum = firstNum * secondNum;
+                goToSecond(resultNum);
             }else{
-                resultNum = firstNum / secondNum;
+                if (secondNum == 0){
+                    Snackbar.make(v, "０以外の数値で割ってください", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }else{
+                    resultNum = firstNum / secondNum;
+                    goToSecond(resultNum);
+                }
             }
-
-            Intent intent = new Intent(this, SecondActivity.class);
-            intent.putExtra("VALUE", resultNum);
-            startActivity(intent);
         }
+    }
+
+    private  void goToSecond(Double resultNum){
+        Intent intent = new Intent(this, SecondActivity.class);
+        intent.putExtra("VALUE", resultNum);
+        startActivity(intent);
     }
 }
